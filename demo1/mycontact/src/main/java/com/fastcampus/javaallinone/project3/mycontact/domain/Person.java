@@ -2,10 +2,7 @@ package com.fastcampus.javaallinone.project3.mycontact.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -48,10 +45,8 @@ public class Person {
     @ToString.Exclude   // ToString 되는 것 제외하는 방법(ex. 패스워드)
     private String phoneNumber;
 
-    private boolean block;
-
-    private String blockReason;
-
-
+    //엔티티간 연관 관계 설정
+    @OneToOne   //해당 Person에 대해 Block을 지정했느냐 안했느냐 이므로 1:1로
+    private Block block;
 
 }

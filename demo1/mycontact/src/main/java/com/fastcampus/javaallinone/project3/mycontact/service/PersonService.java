@@ -14,20 +14,25 @@ import java.util.stream.Collectors;
 public class PersonService {
     @Autowired
     private PersonRepository personRepository;
-    @Autowired
-    private BlockRepository blockRepository;
+//    @Autowired    // 관계설정을 하여서 쓸모없어짐
+//    private BlockRepository blockRepository;
 
     public List<Person> getPeopleExcludeBlocks(){
         List<Person> people = personRepository.findAll();
-        List<Block> blocks = blockRepository.findAll();
+
+        // 이제 관계설정(relation)을 걸었으므로 이렇게 할 필요가 없다
+//        List<Block> blocks = blockRepository.findAll();
         // 두 객체를 비교하여 빼고 싶은데 현재 객체가 다르므로 바로 뺄 수 없다
 
         //일단 Block  에 있는 name 변수값만 가져오자(스트림.map)
-        List<String> blockNames = blocks.stream().map(Block::getName).collect(Collectors.toList());
+        // 이제 관계설정(relation)을 걸었으므로 이렇게 할 필요가 없다
+//        List<String> blockNames = blocks.stream().map(Block::getName).collect(Collectors.toList());
                     // Block::getName 은 String값이므로 toList를 통해 List화시킨다
 
         //people에서 blockNames를 빼주자(스트림.filter)
         //!(not)을 통해서 빼주기
-        return people.stream().filter(person -> !blockNames.contains(person.getName())).collect(Collectors.toList());
+
+        // 블럭데이터만 없는(null) 사람만 가져오기(filter)
+        return people.stream().filter(person -> person.getBlock() ==null).collect(Collectors.toList());
     }
 }
