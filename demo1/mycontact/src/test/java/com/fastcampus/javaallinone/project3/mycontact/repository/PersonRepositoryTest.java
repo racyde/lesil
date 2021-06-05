@@ -26,10 +26,11 @@ class PersonRepositoryTest {
 
         person.setName("kim");
         person.setAge(10);
+        person.setBloodType("A");
 
         personRepository.save(person);
 
-//        System.out.println(personRepository.findAll());
+        System.out.println(personRepository.findAll());
 
 // 3. 해당 데이터값들을 자동으로 체크하도록(검증) 만들기
         List<Person> people = personRepository.findAll();
@@ -37,6 +38,7 @@ class PersonRepositoryTest {
         Assertions.assertEquals(people.size(),1);
         Assertions.assertEquals(people.get(0).getName(),"kim");
         Assertions.assertEquals(people.get(0).getAge(),10);
+        Assertions.assertEquals(people.get(0).getBloodType(),"A");
     }
 
 }
