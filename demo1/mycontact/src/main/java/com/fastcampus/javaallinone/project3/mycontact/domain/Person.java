@@ -48,5 +48,10 @@ public class Person {
     @ToString.Exclude   // ToString 되는 것 제외하는 방법(ex. 패스워드)
     private String phoneNumber;
 
+    private boolean block;
+
+    private String blockReason;
+
+
 
 }
