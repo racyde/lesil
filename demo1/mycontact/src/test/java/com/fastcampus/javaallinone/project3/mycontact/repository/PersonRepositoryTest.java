@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,5 +41,13 @@ class PersonRepositoryTest {
         Assertions.assertEquals(people.get(0).getAge(),10);
         Assertions.assertEquals(people.get(0).getBloodType(),"A");
     }
+    @Test
+    void hashCodeAndEquals(){
+        Person person1 = new Person("kim",10);
+        Person person2= new Person("kim",10);
 
+        System.out.println(person1.equals(person2));
+        System.out.println(person1.hashCode());
+        System.out.println(person2.hashCode());
+    }
 }
