@@ -24,7 +24,7 @@ class PersonServiceTest {
     private BlockRepository blockRepository;
 
     @Test
-    void getPeopleExcludeBlocks(){
+    void getPeopleExcludeBlocks(){  // 이것도 쿼리 메서드를 이용해서 간략화 해보자
 
         givenPeople();
 //        givenBlocks();
@@ -35,6 +35,18 @@ class PersonServiceTest {
         result.forEach(System.out::println);
 
     }
+
+    @Test
+    void getPeopleByName(){ // 이름을 조건으로 Person들을 가져오는 메서드 생성
+        givenPeople();
+
+        List<Person> result = personService.getPeopleByName("kim");
+
+        result.forEach(System.out::println);
+
+    }
+
+
 
 //    private void givenBlocks() {
 //        givenBlock("kim");

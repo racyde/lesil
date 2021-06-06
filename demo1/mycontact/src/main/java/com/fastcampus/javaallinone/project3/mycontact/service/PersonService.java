@@ -21,8 +21,7 @@ public class PersonService {
 //    private BlockRepository blockRepository;
 
     public List<Person> getPeopleExcludeBlocks(){
-        List<Person> people = personRepository.findAll();
-
+//        List<Person> people = personRepository.findAll();
         // 이제 관계설정(relation)을 걸었으므로 이렇게 할 필요가 없다
 //        List<Block> blocks = blockRepository.findAll();
         // 두 객체를 비교하여 빼고 싶은데 현재 객체가 다르므로 바로 뺄 수 없다
@@ -34,10 +33,24 @@ public class PersonService {
 
         //people에서 blockNames를 빼주자(스트림.filter)
         //!(not)을 통해서 빼주기
-
         // 블럭데이터만 없는(null) 사람만 가져오기(filter)
-        return people.stream().filter(person -> person.getBlock() ==null).collect(Collectors.toList());
+//        return people.stream().filter(person -> person.getBlock() ==null).collect(Collectors.toList());
+
+    // 쿼리 메서드를 활용한 코드 간략화
+        return personRepository.findByBlockIsNull();
+
     }
+
+    public List<Person> getPeopleByName(String name){
+//        List<Person> people = personRepository.findAll();
+//        // findAll() 메서드를 사용했으므로 전체 데이터를 가져와서 조회한다 --> 성능문제 발생할 수 있음
+//        return people.stream().filter(person -> person.getName().equals(name)).collect(Collectors.toList());
+
+        return personRepository.findByName(name);   //personRepository에서  생성한 findByName 쿼리메서드 이용
+
+    }
+
+
 
     @Transactional(readOnly = true)
     public Person getPerson(Long id){

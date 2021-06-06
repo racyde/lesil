@@ -59,4 +59,45 @@ class PersonRepositoryTest {
         System.out.println(map.get(person2));   //person2로는 가져올 수 없음(해시코드가 다르므로...)
 
     }
+
+    @Test
+    void findByBloodType(){ // findByBloodType 쿼리메서드 테스트
+        givenPerson("kim",10,"A");
+        givenPerson("lee",9,"B");
+        givenPerson("denis",8,"O");
+        givenPerson("sophia",7,"AB");
+        givenPerson("benny",6,"A");
+//        givenPerson("John",5,"A");
+
+        List<Person> result = personRepository.findByBloodType("A");
+
+        result.forEach(System.out::println);
+    }
+
+    //메서드 오버로딩
+    private void givenPerson(String name, int age, String bloodType){
+        givenPerson(name,age,bloodType,null);
+    }
+
+    private void givenPerson(String name, int age, String bloodType, LocalDate birthday){
+
+        Person person = new Person(name, age, bloodType);
+        person.setBirthday(birthday);   // 필수값은 아니므로 setter로 넣음
+        personRepository.save(person);
+    }
+
+
+    @Test
+    void findByBirthdayBetween(){// findByBirthdayBetween 쿼리메서드 테스트
+        givenPerson("kim",10,"A",LocalDate.of(1991,8,15));
+        givenPerson("lee",9,"B",LocalDate.of(1992,7,10));
+        givenPerson("denis",8,"O",LocalDate.of(1993,1,5));
+        givenPerson("sophia",7,"AB",LocalDate.of(1994,6,30));
+        givenPerson("benny",6,"A",LocalDate.of(1995,8,30));
+
+        List<Person> result = personRepository.findByBirthdayBetween(LocalDate.of(1991,8,1),LocalDate.of(1991,8,31));
+
+        result.forEach(System.out::println);
+    }
+
 }
