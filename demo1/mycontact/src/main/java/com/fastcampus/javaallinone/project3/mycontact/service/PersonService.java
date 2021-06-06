@@ -4,13 +4,16 @@ import com.fastcampus.javaallinone.project3.mycontact.domain.Block;
 import com.fastcampus.javaallinone.project3.mycontact.domain.Person;
 import com.fastcampus.javaallinone.project3.mycontact.repository.BlockRepository;
 import com.fastcampus.javaallinone.project3.mycontact.repository.PersonRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service    //해당클래스가 Service Bean임을 표시
+@Service //해당클래스가 Service Bean임을 표시
+@Slf4j  // 롬복에서 제공하는 로깅용 툴
 public class PersonService {
     @Autowired
     private PersonRepository personRepository;
@@ -34,5 +37,15 @@ public class PersonService {
 
         // 블럭데이터만 없는(null) 사람만 가져오기(filter)
         return people.stream().filter(person -> person.getBlock() ==null).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Person getPerson(Long id){
+        Person person =personRepository.findById(id).get();
+
+//        System.out.println("person : "+person); // sout은 다 출력된다
+        log.info("person : {}", person);    //로그 형식으로 찍힘: 로그백을 통해서 로그 출력을 제한 할 수 있다
+
+        return  person;
     }
 }

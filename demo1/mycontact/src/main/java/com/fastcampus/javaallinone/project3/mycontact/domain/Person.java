@@ -46,7 +46,20 @@ public class Person {
     private String phoneNumber;
 
     //엔티티간 연관 관계 설정
-    @OneToOne   //해당 Person에 대해 Block을 지정했느냐 안했느냐 이므로 1:1로
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude   // 를 해서 쿼리문을 한번만 실행되도록 --> 쿼리문 최소화
+    //Person 객체에 PERSIST, MERGE, REMOVE 의 액션이 생겼을 때에 Block 엔티티도 함께 처리하겠다는 뜻
+    // 이를 간략화하면 (cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    // ==> CascadeType.ALL 로 정리가능
+    //orphanRemoval = true => 연관 엔티티(블럭)가 해제되는 순간 해당 엔티티(블럭)가 사라짐
+    //cascade => Person 엔티티에서 블록에 대한 영속성을 함께 관리하겠다는 뜻
+    // fetch = FetchType.EAGER ---> 쿼리문을 보면 left outer join으로 하나의 쿼리문으로 실행됨
+        //, optional = false    ---> 해당 엔티티(블럭)의 값이 항상 필요하다는 뜻
+        // -->  이 경우 쿼리문을 보면  inner join 으로 하나의 쿼리문 형태로 실행됨
+    //fetch = FetchType.LAZY    ---> 쿼리문을 join하지않고 따로 따로 쿼리문 실행됨(Person 엔티티, Block 엔티티)
+        // .LAZY 를 하면 필요할 때만 Block 객체를 불러온다
+
+    //해당 Person에 대해 Block을 지정했느냐 안했느냐 이므로 1:1로
     private Block block;
 
 }

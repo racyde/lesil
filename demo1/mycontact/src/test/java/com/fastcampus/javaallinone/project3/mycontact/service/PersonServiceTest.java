@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,23 +27,58 @@ class PersonServiceTest {
     void getPeopleExcludeBlocks(){
 
         givenPeople();
-        givenBlocks();
+//        givenBlocks();
 
         List<Person> result = personService.getPeopleExcludeBlocks();
 
-//        System.out.println(result);
     //stream을 통해서 뿌리는 식으로 표현해보자
         result.forEach(System.out::println);
 
     }
 
-    private void givenBlocks() {
-        givenBlock("kim");
+//    private void givenBlocks() {
+//        givenBlock("kim");
+//    }
+
+//    private Block givenBlock(String name) { //Block을 리턴하도록...
+//        return blockRepository.save(new Block(name));
+//    }
+
+    @Test
+    void cascadeTest(){ //cascade가 어떻게 동작하는지 확인용 메서드
+        givenPeople();
+
+        List<Person> result = personRepository.findAll();
+        result.forEach(System.out::println);
+
+        Person person = result.get(3);
+        person.getBlock().setStartDate(LocalDate.now());
+        person.getBlock().setEndDate(LocalDate.now());
+
+        personRepository.save(person);
+        personRepository.findAll().forEach(System.out::println);
+
+
+        //이 person을 삭제하는 코딩
+//        personRepository.delete(person);
+//        personRepository.findAll().forEach(System.out::println);
+//        blockRepository.findAll().forEach(System.out::println); //하지만 blockRepository에는 지운사람이 남아 있다.
+
+
+        person.setBlock(null);  //블럭을 해제
+        personRepository.save(person);
+        personRepository.findAll().forEach(System.out::println);
+        blockRepository.findAll().forEach(System.out::println);
     }
 
-    private Block givenBlock(String name) { //Block을 리턴하도록...
-        return blockRepository.save(new Block(name));
+
+    @Test
+    void getPerson(){
+        givenPeople();
+
+        Person person = personService.getPerson(3L);
     }
+
 
     private void givenPeople() {
         givenPerson("kim",10,"A");
@@ -58,7 +94,7 @@ class PersonServiceTest {
     private void givenBlockPerson(String name,int age, String bloodType){
 
         Person blockPerson = new Person(name,age,bloodType);
-        blockPerson.setBlock(givenBlock(name));
+        blockPerson.setBlock(new Block(name));
         personRepository.save(blockPerson);
     }
 
