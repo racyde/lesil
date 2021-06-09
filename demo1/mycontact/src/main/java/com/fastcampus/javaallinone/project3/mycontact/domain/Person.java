@@ -1,8 +1,10 @@
 package com.fastcampus.javaallinone.project3.mycontact.domain;
 
+import com.fastcampus.javaallinone.project3.mycontact.domain.dto.Birthday;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.time.LocalDate;
 
 @Entity
@@ -37,9 +39,11 @@ public class Person {
 
     private String address;
 
+    @Valid
+    @Embedded   //다른 객체를 Entity의 속성으로 가져옴
+    private Birthday birthday; //java7부터 제공하는 날짜 객체
 
-    private LocalDate birthday; //java7부터 제공하는 날짜 객체
-
+    
     private String job;
 
     @ToString.Exclude   // ToString 되는 것 제외하는 방법(ex. 패스워드)

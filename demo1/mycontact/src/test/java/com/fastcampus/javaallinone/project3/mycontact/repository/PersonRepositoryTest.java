@@ -1,6 +1,7 @@
 package com.fastcampus.javaallinone.project3.mycontact.repository;
 
 import com.fastcampus.javaallinone.project3.mycontact.domain.Person;
+import com.fastcampus.javaallinone.project3.mycontact.domain.dto.Birthday;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ class PersonRepositoryTest {
 // 3. 해당 데이터값들을 자동으로 체크하도록(검증) 만들기
         List<Person> people = personRepository.findAll();
 
-        Assertions.assertEquals(people.size(),1);
+//        Assertions.assertEquals(people.size(),1);
         Assertions.assertEquals(people.get(0).getName(),"kim");
         Assertions.assertEquals(people.get(0).getAge(),10);
         Assertions.assertEquals(people.get(0).getBloodType(),"A");
@@ -82,7 +83,7 @@ class PersonRepositoryTest {
     private void givenPerson(String name, int age, String bloodType, LocalDate birthday){
 
         Person person = new Person(name, age, bloodType);
-        person.setBirthday(birthday);   // 필수값은 아니므로 setter로 넣음
+        person.setBirthday(new Birthday(birthday));   // 필수값은 아니므로 setter로 넣음
         personRepository.save(person);
     }
 
@@ -95,7 +96,7 @@ class PersonRepositoryTest {
         givenPerson("sophia",7,"AB",LocalDate.of(1994,6,30));
         givenPerson("benny",6,"A",LocalDate.of(1995,8,30));
 
-        List<Person> result = personRepository.findByBirthdayBetween(LocalDate.of(1991,8,1),LocalDate.of(1991,8,31));
+        List<Person> result = personRepository.findByMonthOfBirthDay(8);
 
         result.forEach(System.out::println);
     }

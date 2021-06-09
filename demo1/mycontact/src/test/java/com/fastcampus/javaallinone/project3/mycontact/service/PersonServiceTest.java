@@ -64,8 +64,8 @@ class PersonServiceTest {
         result.forEach(System.out::println);
 
         Person person = result.get(3);
-        person.getBlock().setStartDate(LocalDate.now());
-        person.getBlock().setEndDate(LocalDate.now());
+//        person.getBlock().setStartDate(LocalDate.now());
+//        person.getBlock().setEndDate(LocalDate.now());
 
         personRepository.save(person);
         personRepository.findAll().forEach(System.out::println);
