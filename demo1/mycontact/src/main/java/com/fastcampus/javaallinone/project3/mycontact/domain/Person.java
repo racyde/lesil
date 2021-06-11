@@ -2,10 +2,10 @@ package com.fastcampus.javaallinone.project3.mycontact.domain;
 
 import com.fastcampus.javaallinone.project3.mycontact.domain.dto.Birthday;
 import lombok.*;
+import org.hibernate.annotations.Tables;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import java.time.LocalDate;
 
 @Entity
 //@Getter

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service //해당클래스가 Service Bean임을 표시
@@ -54,7 +55,10 @@ public class PersonService {
 
     @Transactional(readOnly = true)
     public Person getPerson(Long id){
-        Person person =personRepository.findById(id).get();
+//        Person person =personRepository.findById(id).get();
+
+        Person person = personRepository.findById(id).orElse(null);
+        // 값이 없으면 (orElse) null을 리턴
 
 //        System.out.println("person : "+person); // sout은 다 출력된다
         log.info("person : {}", person);    //로그 형식으로 찍힘: 로그백을 통해서 로그 출력을 제한 할 수 있다
