@@ -6,6 +6,8 @@ import org.hibernate.annotations.Tables;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 //@Getter
@@ -24,16 +26,21 @@ public class Person {
 
 //    @Getter // lombok에 있는 getter//setter
 //    @Setter
-    @NonNull
+    @NonNull    //@RequiredArgsConstructor 를 사용하기 위한 용도의 Not Null
+    @NotEmpty   // String 값이므로 이걸 달아줌(nn의 뜻)
+    @Column(nullable = false)   // 실제 nn의 뜻
     private String name;
 
     @NonNull
+    @Min(1)
     private int age;
 
 
     private String hobby;
 
     @NonNull
+    @NotEmpty
+    @Column(nullable = false)
     private String bloodType;
 
 
