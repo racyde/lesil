@@ -4,6 +4,7 @@ import com.fastcampus.javaallinone.project3.mycontact.domain.Block;
 import com.fastcampus.javaallinone.project3.mycontact.domain.Person;
 import com.fastcampus.javaallinone.project3.mycontact.repository.BlockRepository;
 import com.fastcampus.javaallinone.project3.mycontact.repository.PersonRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,12 +21,11 @@ class PersonServiceTest {
     private PersonService personService;
     @Autowired
     private PersonRepository personRepository;
-    @Autowired
-    private BlockRepository blockRepository;
+
 
     @Test
     void getPeopleExcludeBlocks(){  // 이것도 쿼리 메서드를 이용해서 간략화 해보자
-
+    //블럭되지 않은 사람들
         givenPeople();
 //        givenBlocks();
 
@@ -34,6 +34,9 @@ class PersonServiceTest {
     //stream을 통해서 뿌리는 식으로 표현해보자
         result.forEach(System.out::println);
 
+//        Assertions.assertEquals(result.size(),2);
+        Assertions.assertEquals(result.get(0).getName(),"kim");
+        Assertions.assertEquals(result.get(1).getName(),"lee");
     }
 
     @Test
@@ -43,6 +46,8 @@ class PersonServiceTest {
         List<Person> result = personService.getPeopleByName("kim");
 
         result.forEach(System.out::println);
+//        Assertions.assertEquals(result.size(),2);
+//        Assertions.assertEquals(result.get(0).getName(),"kim");
 
     }
 
@@ -56,32 +61,6 @@ class PersonServiceTest {
 //        return blockRepository.save(new Block(name));
 //    }
 
-    @Test
-    void cascadeTest(){ //cascade가 어떻게 동작하는지 확인용 메서드
-        givenPeople();
-
-        List<Person> result = personRepository.findAll();
-        result.forEach(System.out::println);
-
-        Person person = result.get(3);
-//        person.getBlock().setStartDate(LocalDate.now());
-//        person.getBlock().setEndDate(LocalDate.now());
-
-        personRepository.save(person);
-        personRepository.findAll().forEach(System.out::println);
-
-
-        //이 person을 삭제하는 코딩
-//        personRepository.delete(person);
-//        personRepository.findAll().forEach(System.out::println);
-//        blockRepository.findAll().forEach(System.out::println); //하지만 blockRepository에는 지운사람이 남아 있다.
-
-
-        person.setBlock(null);  //블럭을 해제
-        personRepository.save(person);
-        personRepository.findAll().forEach(System.out::println);
-        blockRepository.findAll().forEach(System.out::println);
-    }
 
 
     @Test
@@ -89,6 +68,8 @@ class PersonServiceTest {
         givenPeople();
 
         Person person = personService.getPerson(3L);
+
+//        Assertions.assertEquals(person.getName(),"oh");
     }
 
 

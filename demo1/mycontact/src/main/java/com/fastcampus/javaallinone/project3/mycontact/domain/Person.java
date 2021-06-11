@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class Person {
 
     @Id //해당 컬럼이 Domain Entity의 Pk임을 명시함
-    @GeneratedValue //해당 컬럼의 값은 자동으로 생성되는 값임을 명시함(디폴트 전략값=auto)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //해당 컬럼의 값은 자동으로 생성되는 값임을 명시함(디폴트 전략값=auto)
     private Long id;
 
 //    @Getter // lombok에 있는 getter//setter
